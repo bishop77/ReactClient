@@ -12,7 +12,7 @@ export default class Region extends React.Component{
         }
         this.changeItem = this.changeItem.bind(this);
         this.addItem = this.addItem.bind(this);
-        this.getDat = this.getDat.bind(this);
+        this.getData_Region = this.getData_Region.bind(this);
         this.updateItem = this.updateItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
         this.resetItem = this.resetItem.bind(this);
@@ -20,9 +20,9 @@ export default class Region extends React.Component{
     }
     fetchItem = new fetchItem();
     componentDidMount(){
-        this.getDat();
+        this.getData_Region();
     }
-    getDat = async () =>{
+    getData_Region = async () =>{
         var a = await this.fetchItem.get_Data("http://localhost:55739/region/GetRegion");
         this.setState({
             store : a,
@@ -46,17 +46,17 @@ export default class Region extends React.Component{
             return;
         }
         var object_data = JSON.stringify({"Id_region": this.state.id_for_update, "Name": this.state.name_leather});
-        var a = await this.fetchItem.update_Data("http://localhost:55739/region/UpdateRegion", object_data);
+        await this.fetchItem.update_Data("http://localhost:55739/region/UpdateRegion", object_data);
         this.setState({
             name_leather: "",
             id_for_update: -1
         })
-        this.getDat();
+        this.getData_Region();
     }
     
     deleteItem = async (id) =>{
-        var a = await this.fetchItem.delete_Data("http://localhost:55739/Region/RemoveRegion", `${id}`);
-        this.getDat();
+        await this.fetchItem.delete_Data("http://localhost:55739/Region/RemoveRegion", `${id}`);
+        this.getData_Region();
     }
     addItem = async () =>{
         if(this.state.name_leather === ""){
@@ -67,7 +67,7 @@ export default class Region extends React.Component{
         this.setState({
             name_leather: ""
         })
-        this.getDat();
+        this.getData_Region();
     }
     resetItem = ()=>{
         this.setState({

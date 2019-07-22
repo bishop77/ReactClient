@@ -11,7 +11,7 @@ export default class Leather extends React.Component{
         }
         this.changeItem = this.changeItem.bind(this);
         this.addItem = this.addItem.bind(this);
-        this.getDat = this.getDat.bind(this);
+        this.getDataLeather = this.getDataLeather.bind(this);
         this.updateItem = this.updateItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
         this.resetItem = this.resetItem.bind(this);
@@ -19,9 +19,9 @@ export default class Leather extends React.Component{
     }
     fetchItem = new fetchItem();
     componentDidMount(){
-        this.getDat();
+        this.getDataLeather();
     }
-    getDat = async () =>{
+    getDataLeather = async () =>{
         var a = await this.fetchItem.get_Data("http://localhost:55739/leather/GetLeather");
         this.setState({
             store : a,
@@ -47,17 +47,17 @@ export default class Leather extends React.Component{
             return;
         }
         var object_data = JSON.stringify({"Id_leather": this.state.id_for_update, "Name": this.state.name_leather});
-        var a = await this.fetchItem.update_Data("http://localhost:55739/leather/UpdateLether", object_data);
+        await this.fetchItem.update_Data("http://localhost:55739/leather/UpdateLether", object_data);
         this.setState({
             name_leather: "",
             id_for_update: -1
         })
-        this.getDat();
+        this.getDataLeather();
     }
     
     deleteItem = async (id) =>{
-        var a = await this.fetchItem.delete_Data("http://localhost:55739/leather/RemoveLether", `${id}`);
-        this.getDat();
+        await this.fetchItem.delete_Data("http://localhost:55739/leather/RemoveLether", `${id}`);
+        this.getDataLeather();
     }
     addItem = async () =>{
         if(this.state.name_leather === ""){
@@ -68,7 +68,7 @@ export default class Leather extends React.Component{
         this.setState({
             name_leather: ""
         })
-        this.getDat();
+        this.getDataLeather();
     }
     resetItem = ()=>{
         this.setState({

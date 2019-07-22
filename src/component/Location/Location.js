@@ -1,6 +1,5 @@
 import React from 'react';
 import fetchItem from '../../classes/fetchItem'
-import Error from '../../component/Error'
 
 export default class Location extends React.Component{
     constructor(props){
@@ -53,9 +52,10 @@ export default class Location extends React.Component{
         var obj = {name: this.state.Name_location, Region: { id_region: this.state.selectedID }};
         await this.fetchItem.add_Data("http://localhost:55739/Location/AddLocation", JSON.stringify(obj));
         this.getData_location();
+        this.cancel();
     }
     deleteItem = async(id)=>{
-        var a = await this.fetchItem.delete_Data("http://localhost:55739/Location/RemoveLocation", `${id}`);
+        await this.fetchItem.delete_Data("http://localhost:55739/Location/RemoveLocation", `${id}`);
         this.getData_location();
     }
 

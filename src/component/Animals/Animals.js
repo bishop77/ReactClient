@@ -18,12 +18,12 @@ export default class Animals extends React.Component{
     }
     fetchItem = new fetchItem();
     componentDidMount(){
-        this.getData();
+        this.getDataAnimal();
         this.getDataLeather();
-        this.getDat();
+        this.getDataLocation();
 
     }
-    getData = async() => {
+    getDataAnimal = async() => {
         var a = await this.fetchItem.get_Data("http://localhost:55739/Animal/GetAnimals");
         
         this.setState({
@@ -38,7 +38,7 @@ export default class Animals extends React.Component{
             selectedLeather_ID: a[0].id_leather
         });
     }
-    getDat = async()=>{
+    getDataLocation = async()=>{
         var a = await this.fetchItem.get_Data("http://localhost:55739/Location/GetLocation");
         if(a.length === 0) return;
         this.setState({
@@ -62,7 +62,7 @@ export default class Animals extends React.Component{
         }
         var obj = { name: this.state.animal_name, Location: { id_location: this.state.selectedLocation_ID }, Leather:{id_leather: this.state.selectedLeather_ID}};
         await this.fetchItem.add_Data("http://localhost:55739/Animal/AddAnimals", JSON.stringify(obj));
-        this.getData();
+        this.getDataAnimal();
         this.setState({
             animal_name: ""
         })
@@ -73,8 +73,8 @@ export default class Animals extends React.Component{
         })
     }
     deleteItem = async(id)=>{
-        var a = await this.fetchItem.delete_Data("http://localhost:55739/Animal/RemoveAnimals", `${id}`);
-        this.getData();
+        await this.fetchItem.delete_Data("http://localhost:55739/Animal/RemoveAnimals", `${id}`);
+        this.getDataAnimal();
     }
 
     setUpdateForm = (name, id_location, id_leather, id_animal)=>{
@@ -91,7 +91,7 @@ export default class Animals extends React.Component{
             leather : { id_leather: this.state.selectedLeather_ID }});
         console.log(obj);
         await this.fetchItem.update_Data("http://localhost:55739/Animal/UpdateAnimals", obj);
-        this.getData();
+        this.getDataAnimal();
         this.onCancel();
     } 
     onCancel = ()=>{
